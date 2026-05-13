@@ -5,138 +5,329 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>料理ツール</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&display=swap" rel="stylesheet">
+
 <style>
-* { box-sizing: border-box; }
 
-body {
-  font-family: sans-serif;
-  background: #f5f5f5;
-  margin: 0;
+:root{
+  --bg:#f3f7ff;
+  --card:#ffffff;
+  --main:#7aa8ff;
+  --main2:#9dc0ff;
+  --text:#2f3440;
+  --sub:#6b7280;
+  --shadow:0 8px 24px rgba(0,0,0,0.08);
 }
 
-.search-bar {
-  position: sticky;
-  top: 0;
-  background: white;
-  padding: 10px;
-  z-index: 1000;
+*{
+  box-sizing:border-box;
 }
 
-.compare-box {
-  position: sticky;
-  top: 60px;
-  background: white;
-  padding: 10px;
-  z-index: 999;
-  border-bottom: 1px solid #ddd;
+body{
+  margin:0;
+  font-family:"Mochiy Pop One", sans-serif;
+  background:
+    linear-gradient(180deg,#eef4ff 0%,#f8fbff 100%);
+  color:var(--text);
 }
 
-.container {
-  max-width: 600px;
-  margin: auto;
-  padding: 10px;
+/* ===== HEADER ===== */
+.top-area{
+  position:sticky;
+  top:0;
+  z-index:9999;
+  backdrop-filter:blur(12px);
+  background:rgba(255,255,255,0.75);
+  border-bottom:1px solid rgba(255,255,255,0.5);
+  padding:14px;
 }
 
-.card {
-  background: white;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 10px;
-  display: flex;
-  gap: 10px;
+.site-title{
+  font-size:22px;
+  margin-bottom:12px;
+  color:#4d6bb3;
 }
 
-.card img {
-  width: 70px;
-  height: 70px;
-  border-radius: 10px;
+/* ===== SEARCH ===== */
+.search-wrapper{
+  position:relative;
 }
 
-.search-wrapper {
-  position: relative;
+.search-wrapper input{
+  width:100%;
+  border:none;
+  outline:none;
+  padding:14px 48px 14px 18px;
+  border-radius:18px;
+  background:white;
+  box-shadow:var(--shadow);
+  font-family:"Mochiy Pop One", sans-serif;
+  font-size:14px;
 }
 
-.search-wrapper input {
-  width: 100%;
-  padding: 10px 35px 10px 10px;
+.clear-btn{
+  position:absolute;
+  right:12px;
+  top:50%;
+  transform:translateY(-50%);
+  border:none;
+  background:#edf2ff;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  cursor:pointer;
+  display:none;
 }
 
-.clear-btn {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: none;
+/* ===== CONTAINER ===== */
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:20px;
 }
 
-.detail {
-  background: white;
-  padding: 10px;
-  border-radius: 10px;
-  margin-top: 5px;
+/* ===== TOOL BAR ===== */
+.tool-panel{
+  background:var(--card);
+  border-radius:24px;
+  padding:18px;
+  margin-bottom:20px;
+  box-shadow:var(--shadow);
 }
 
-.hidden { display:none; }
-
-.high { color:green; font-weight:bold; }
-.rankS { color:#ff9800; font-weight:bold; }
-.rankA { color:green; }
-.rankB { color:#999; }
-.rankC { color:#ccc; }
-
-.toggle-box {
-  margin-top:5px;
+.panel-title{
+  font-size:16px;
+  margin-bottom:12px;
+  color:#5d78b8;
 }
+
+/* ===== BUTTON ===== */
+button{
+  border:none;
+  border-radius:999px;
+  padding:10px 16px;
+  background:linear-gradient(
+    135deg,
+    var(--main),
+    var(--main2)
+  );
+  color:white;
+  cursor:pointer;
+  font-family:"Mochiy Pop One", sans-serif;
+  font-size:12px;
+  transition:0.2s;
+  margin-right:8px;
+  margin-top:6px;
+}
+
+button:hover{
+  transform:translateY(-2px);
+}
+
+/* ===== SELECT ===== */
+select{
+  border:none;
+  border-radius:14px;
+  padding:10px;
+  background:#f2f6ff;
+  font-family:"Mochiy Pop One", sans-serif;
+  margin-bottom:10px;
+}
+
+/* ===== CARD ===== */
+.card{
+  background:var(--card);
+  border-radius:24px;
+  padding:14px;
+  margin-bottom:18px;
+  display:flex;
+  gap:14px;
+  align-items:center;
+  box-shadow:var(--shadow);
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+}
+
+.card img{
+  width:90px;
+  height:90px;
+  border-radius:20px;
+  object-fit:cover;
+  border:3px solid #ffffff;
+  background:#eef3ff;
+}
+
+.food-info{
+  flex:1;
+}
+
+.food-name{
+  font-size:18px;
+  margin-bottom:8px;
+  color:#42548d;
+}
+
+.info-row{
+  font-size:13px;
+  margin-bottom:6px;
+}
+
+/* ===== RANK ===== */
+.rankS{
+  color:#ff9800;
+}
+
+.rankA{
+  color:#41b66f;
+}
+
+.rankB{
+  color:#5f87ff;
+}
+
+.rankC{
+  color:#999;
+}
+
+/* ===== DETAIL ===== */
+.detail{
+  background:white;
+  border-radius:20px;
+  padding:18px;
+  margin-top:-8px;
+  margin-bottom:18px;
+  box-shadow:var(--shadow);
+}
+
+.hidden{
+  display:none;
+}
+
+/* ===== UPDATE ===== */
+.update-text{
+  text-align:center;
+  font-size:11px;
+  color:#8a94a7;
+  margin-top:12px;
+  margin-bottom:20px;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:700px){
+
+.card{
+    align-items:flex-start;
+  }
+
+.card img{
+    width:78px;
+    height:78px;
+  }
+
+.food-name{
+    font-size:15px;
+  }
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="search-bar">
-<div class="search-wrapper">
-<input type="text" id="search" placeholder="料理名で検索..." oninput="filterFoods()">
-<button class="clear-btn" onclick="clearSearch()">×</button>
-</div>
-</div>
-
-<div class="compare-box">
-<b>⚔️ 比較</b><br>
-<select id="foodA"></select>
-<select id="foodB"></select>
-<button onclick="compare()">比較</button>
-<div id="compareResult"></div>
-</div>
-
-<div style="text-align:center;font-size:12px;">
-  最終更新：2026-05-06 00:30
+<div class="top-area">
+  <div class="site-title">
+    🍳 料理ツール
+  </div>
+  <div class="search-wrapper">
+    <input
+      type="text"
+      id="search"
+      placeholder="料理名で検索..."
+      oninput="filterFoods()"
+    >
+    <button
+      class="clear-btn"
+      onclick="clearSearch()"
+    >
+      ×
+    </button>
+  </div>
 </div>
 
 <div class="container">
 
-<h2>🍳 料理一覧</h2>
+  <div class="tool-panel">
 
-<select id="starSelect" onchange="renderList()">
-  <option value="0">★1</option>
-  <option value="1">★2</option>
-  <option value="2">★3</option>
-  <option value="3">★4</option>
-  <option value="4">★5</option>
-</select>
+  <div class="panel-title">
+    ⚔️ 料理比較
+  </div>
 
-<div class="toggle-box">
-<label>
-<input type="checkbox" id="toggleHourly" checked onchange="renderList()">
-時給を表示
-</label>
+  <select id="foodA"></select>
+  <select id="foodB"></select>
+
+  <button onclick="compare()">
+    比較する
+  </button>
+
+  <div
+    id="compareResult"
+    style="margin-top:12px;font-size:13px;"
+  ></div>
+
 </div>
 
-<button onclick="sortByProfit()">利益順</button>
-<button onclick="sortByHourly()">時給順</button>
+  <div class="update-text">
+  最終更新：2026-05-13
+</div>
+
+<div class="tool-panel">
+
+  <div class="panel-title">
+    🍳 料理一覧
+  </div>
+
+  <select id="starSelect" onchange="renderList()">
+    <option value="0">★1</option>
+    <option value="1">★2</option>
+    <option value="2">★3</option>
+    <option value="3">★4</option>
+    <option value="4">★5</option>
+  </select>
+
+  <div style="margin:10px 0;">
+
+    <label style="font-size:12px;">
+      <input
+        type="checkbox"
+        id="toggleHourly"
+        checked
+        onchange="renderList()"
+      >
+      時給を表示
+    </label>
+
+  </div>
+
+  <button onclick="sortByProfit()">
+    利益順
+  </button>
+
+  <button onclick="sortByHourly()">
+    時給順
+  </button>
+
+</div>
 
 <div id="list"></div>
 
 </div>
-
 <script>
 
 const foods = [
@@ -702,9 +893,14 @@ function calcHourly(f, star){
 
 // 描画
 function renderList(){
+
   list.innerHTML="";
-  const star = document.getElementById("starSelect").value;
-  const showHourly = document.getElementById("toggleHourly").checked;
+
+  const star =
+    document.getElementById("starSelect").value;
+
+  const showHourly =
+    document.getElementById("toggleHourly").checked;
 
   filteredFoods.forEach((f,i)=>{
 
@@ -712,29 +908,74 @@ function renderList(){
     const rank = getRank(profit);
     const hourly = calcHourly(f,star);
 
-    list.innerHTML+=`
-    <div class="card" onclick="toggleDetail(${i})">
+    list.innerHTML += `
+
+    <div
+      class="card"
+      onclick="toggleDetail(${i})"
+    >
+
       <img src="${f.image}">
-      <div>
-        <b>${f.name}</b><br>
-        利益：${profit}<br>
-        <span class="rank${rank}">ランク：${rank}</span><br>
-        ${showHourly ? `時給：${hourly}` : ""}
+
+      <div class="food-info">
+
+        <div class="food-name">
+          ${f.name}
+        </div>
+
+        <div class="info-row">
+          💰 利益：${profit}
+        </div>
+
+        <div class="info-row rank${rank}">
+          🏆 ランク：${rank}
+        </div>
+
+        ${
+          showHourly
+          ? `
+          <div class="info-row">
+            ⏰ 時給：${hourly}
+          </div>
+          `
+          : ""
+        }
+
       </div>
+
     </div>
 
-    <div id="detail${i}" class="detail hidden">
-      <b>売価</b><br>
-      ${f.prices.map((p,i)=>`★${i+1}:${p}`).join("<br>")}
+    <div
+      id="detail${i}"
+      class="detail hidden"
+    >
+
+      <b>売価</b>
+
       <br><br>
-      <b>素材</b><br>
+
+      ${
+        f.prices
+        .map((p,i)=>
+          `★${i+1}：${p}`
+        )
+        .join("<br>")
+      }
+
+      <br><br>
+
+      <b>素材</b>
+
+      <br><br>
+
       ${f.materials.join("<br>")}
+
     </div>
+
     `;
   });
-}
 
-renderList();
+}
 
 // ソート
 function sortByProfit(){
@@ -756,8 +997,15 @@ function toggleDetail(i){
 
 // 検索
 function filterFoods(){
-  const keyword=document.getElementById("search").value.toLowerCase();
-  filteredFoods=foods.filter(f=>f.name.toLowerCase().includes(keyword));
+  const input =
+    document.getElementById("search");
+  const keyword =
+    input.value.toLowerCase();
+  document.querySelector(".clear-btn").style.display =
+    keyword ? "block" : "none";
+  filteredFoods = foods.filter(f =>
+    f.name.toLowerCase().includes(keyword)
+  );
   renderList();
 }
 
