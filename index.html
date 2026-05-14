@@ -106,21 +106,17 @@ body{
 
 /* ===== BUTTON ===== */
 button{
-  border:none;
   border-radius:999px;
   padding:10px 16px;
-  background:linear-gradient(
-    135deg,
-    var(--main),
-    var(--main2)
-  );
-  color:white;
   cursor:pointer;
   font-family:"Mochiy Pop One", sans-serif;
   font-size:12px;
   transition:0.2s;
   margin-right:8px;
   margin-top:6px;
+  background:#edf3ff;
+  color:#4d6bb3;
+  border:2px solid #dce7ff
 }
 
 button:hover{
@@ -148,7 +144,13 @@ select{
   border-radius:24px;
   padding:14px;
   margin-bottom:18px;
-  display:flex;
+  display:grid;
+  grid-template-columns:
+    90px
+    1.5fr
+    1fr
+    1fr
+    1fr;
   gap:14px;
   align-items:center;
   box-shadow:var(--shadow);
@@ -224,11 +226,37 @@ select{
   margin-bottom:20px;
 }
 
+.table-head{
+  display:grid;
+  grid-template-columns:
+    90px
+    1.5fr
+    1fr
+    1fr
+    1fr;
+  padding:0 14px;
+  margin-bottom:10px;
+  font-size:12px;
+  color:#7b88a8;
+ }
+
+.active{
+  background:linear-gradient(
+    135deg,
+    #7aa8ff,
+    #9dc0ff
+  );
+  color:white;
+ }
 /* ===== MOBILE ===== */
 @media(max-width:700px){
 
 .card{
     align-items:flex-start;
+    grid-template-columns:
+    78px
+    1fr;
+    gap:10px;
   }
 
 .card img{
@@ -239,6 +267,10 @@ select{
 .food-name{
     font-size:15px;
   }
+
+.info-row{
+  font-size:11px;
+ }
 }
 
 </style>
@@ -292,7 +324,17 @@ select{
   最終更新：2026-05-13
 </div>
 
-<div class="tool-panel">
+  <div class="tool-panel">
+
+<div class="table-head">
+
+  <div></div>
+  <div>料理名</div>
+  <div>利益</div>
+  <div>時給</div>
+  <div>★</div>
+
+</div>
 
   <div class="panel-title">
     🍳 料理一覧
@@ -899,85 +941,61 @@ function calcHourly(f, star){
 // 描画
 function renderList(){
 
-  list.innerHTML="";
+  list.innerHTML += `
 
-  const star =
-    document.getElementById("starSelect").value;
+<div
+  class="card"
+  onclick="toggleDetail(${i})"
+>
 
-  const showHourly =
-    document.getElementById("toggleHourly").checked;
+  <img src="${f.image}">
 
-  filteredFoods.forEach((f,i)=>{
+  <div class="food-name">
+    ${f.name}
+  </div>
 
-    const profit = getProfit(f,star);
-    const rank = getRank(profit);
-    const hourly = calcHourly(f,star);
+  <div class="info-row">
+    💰 ${profit}
+  </div>
 
-    list.innerHTML += `
+  <div class="info-row">
+    ⏰ ${hourly}
+  </div>
 
-    <div
-      class="card"
-      onclick="toggleDetail(${i})"
-    >
+  <div class="info-row">
+    ⭐ ${star*1+1}
+  </div>
 
-      <img src="${f.image}">
+</div>
 
-      <div class="food-info">
+<div
+  id="detail${i}"
+  class="detail hidden"
+>
 
-        <div class="food-name">
-          ${f.name}
-        </div>
+  <b>売価</b>
 
-        <div class="info-row">
-          💰 利益：${profit}
-        </div>
+  <br><br>
 
-        <div class="info-row rank${rank}">
-          🏆 ランク：${rank}
-        </div>
+  ${
+    f.prices
+    .map((p,i)=>
+      `★${i+1}：${p}`
+    )
+    .join("<br>")
+  }
 
-        ${
-          showHourly
-          ? `
-          <div class="info-row">
-            ⏰ 時給：${hourly}
-          </div>
-          `
-          : ""
-        }
+  <br><br>
 
-      </div>
+  <b>素材</b>
 
-    </div>
+  <br><br>
 
-    <div
-      id="detail${i}"
-      class="detail hidden"
-    >
+  ${f.materials.join("<br>")}
 
-      <b>売価</b>
+</div>
 
-      <br><br>
-
-      ${
-        f.prices
-        .map((p,i)=>
-          `★${i+1}：${p}`
-        )
-        .join("<br>")
-      }
-
-      <br><br>
-
-      <b>素材</b>
-
-      <br><br>
-
-      ${f.materials.join("<br>")}
-
-    </div>
-
-    `;
+`;
   });
 
 }
@@ -1009,8 +1027,12 @@ function filterFoods(){
   document.querySelector(".clear-btn").style.display =
     keyword ? "block" : "none";
   filteredFoods = foods.filter(f =>
-    f.name.toLowerCase().includes(keyword)
-  );
+  f.name.toLowerCase().includes(keyword)
+  ||
+  f.materials.join(" ")
+    .toLowerCase()
+    .includes(keyword)
+);
   renderList();
 }
 
