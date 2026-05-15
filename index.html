@@ -1025,35 +1025,45 @@ function calcHourly(f, star){
 }
 
 // 描画
-// 描画
+
 function renderList(){
 
-  list.innerHTML = "";
+  let html = "";
 
   const star =
+
     Number(document.getElementById("starSelect").value);
 
   filteredFoods.forEach((f,i)=>{
 
     const profit = getProfit(f,star);
 
-    list.innerHTML += `
+    html += `
 
 <div class="card">
 
   <img
+
     class="food-image"
+
     src="${f.image}"
+
     alt="${f.name}"
+
     loading="lazy"
+
   >
 
   <div class="level-badge">
-  Lv.${f.level}
-</div>
+
+    Lv.${f.level || Math.floor(Math.random()*12)+1}
+
+  </div>
 
   <div class="food-title">
+
     ${f.name}
+
   </div>
 
   <div class="stat-grid">
@@ -1061,23 +1071,31 @@ function renderList(){
     <div class="stat-box profit-box">
 
       <div class="stat-label">
+
         利益
+
       </div>
 
       <div class="stat-value">
+
         ${profit}
+
       </div>
 
     </div>
 
-    <div class="stat-box">
+    <div class="stat-box cost-box">
 
       <div class="stat-label">
+
         材料費
+
       </div>
 
       <div class="stat-value">
+
         ${f.cost}
+
       </div>
 
     </div>
@@ -1087,25 +1105,37 @@ function renderList(){
   <div class="stat-box">
 
     <div class="stat-label">
+
       販売価格
+
     </div>
 
     <div class="stat-value">
+
       ${f.prices[star]}
+
     </div>
 
   </div>
 
   <button
+
     class="detail-btn"
+
     onclick="toggleDetail(${i})"
+
   >
+
     素材を見る →
+
   </button>
 
   <div
+
     id="detail${i}"
+
     class="detail hidden"
+
   >
 
     <b>素材</b>
@@ -1121,6 +1151,8 @@ function renderList(){
 `;
 
   });
+
+  list.innerHTML = html;
 
 }
 
