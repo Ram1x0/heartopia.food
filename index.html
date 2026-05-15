@@ -27,11 +27,15 @@
 }
 
 body{
-  margin:0;
   font-family:"Mochiy Pop One", sans-serif;
+  margin:0;
   background:
-    linear-gradient(180deg,#eef4ff 0%,#f8fbff 100%);
-  color:var(--text);
+    linear-gradient(
+      180deg,
+      #ffcb05 0px,
+      #ffd84d 280px,
+      #f5f5f2 280px
+    );
 }
 
 /* ===== HEADER ===== */
@@ -61,11 +65,12 @@ body{
   border:none;
   outline:none;
   padding:14px 48px 14px 18px;
-  border-radius:18px;
+  height:64px;
+  border-radius:24px;
+  font-size:16px;
   background:white;
   box-shadow:var(--shadow);
   font-family:"Mochiy Pop One", sans-serif;
-  font-size:14px;
 }
 
 .clear-btn{
@@ -92,10 +97,10 @@ body{
 /* ===== TOOL BAR ===== */
 .tool-panel{
   background:var(--card);
-  border-radius:24px;
-  padding:18px;
   margin-bottom:20px;
   box-shadow:var(--shadow);
+  border-radius:40px;
+  padding:30px;
 }
 
 .panel-title{
@@ -134,32 +139,15 @@ select{
 }
 
 /* ===== CARD ===== */
-.card{
-  background:
-    linear-gradient(
-      135deg,
-      #ffffff 0%,
-      #f7faff 100%
-    );
-  border-radius:24px;
-  padding:14px;
-  margin-bottom:18px;
+.cards{
   display:grid;
   grid-template-columns:
-    90px
-    1.5fr
-    1fr
-    1fr
-    1fr;
-  gap:14px;
-  align-items:center;
-  box-shadow:var(--shadow);
-  cursor:pointer;
-  transition:0.2s;
+    repeat(auto-fit,minmax(340px,1fr));
+  gap:24px;
 }
 
 .card:hover{
-  transform:translateY(-3px);
+  transform:translateY(-6px);
 }
 
 .card img{
@@ -179,6 +167,14 @@ select{
   font-size:18px;
   margin-bottom:8px;
   color:#42548d;
+}
+
+.food-image{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  border-radius:28px;
+  background:#f4f5f8;
 }
 
 .info-row{
@@ -226,20 +222,6 @@ select{
   margin-bottom:20px;
 }
 
-.table-head{
-  display:grid;
-  grid-template-columns:
-    90px
-    1.5fr
-    1fr
-    1fr
-    1fr;
-  padding:0 14px;
-  margin-bottom:10px;
-  font-size:12px;
-  color:#7b88a8;
- }
-
 .active{
   background:linear-gradient(
     135deg,
@@ -248,6 +230,64 @@ select{
   );
   color:white;
  }
+
+.food-title{
+  font-size:28px;
+  font-weight:700;
+
+  margin-top:20px;
+  margin-bottom:18px;
+}
+
+.stat-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:14px;
+}
+
+.stat-box{
+  background:#f8f9fc;
+
+  border:2px solid #eef0f6;
+
+  border-radius:22px;
+
+  padding:16px;
+}
+
+.profit-box{
+  background:#eaf8f0;
+  border-color:#b7ebcb;
+}
+
+.stat-label{
+  font-size:11px;
+  color:#7a8599;
+  margin-bottom:8px;
+}
+
+.stat-value{
+  font-size:28px;
+  font-weight:700;
+}
+
+.detail-btn{
+  width:100%;
+
+  border:none;
+
+  background:#07153b;
+  color:white;
+
+  border-radius:999px;
+
+  padding:18px;
+
+  font-size:13px;
+
+  margin-top:18px;
+}
 /* ===== MOBILE ===== */
 @media(max-width:700px){
 
@@ -273,11 +313,6 @@ select{
 .info-row{
   font-size:11px;
 }
-
-.table-head{
-  display:none;
-}
-
 }
 
 </style>
@@ -333,16 +368,6 @@ select{
 
   <div class="tool-panel">
 
-<div class="table-head">
-
-  <div></div>
-  <div>料理名</div>
-  <div>利益</div>
-  <div>時給</div>
-  <div>★</div>
-
-</div>
-
   <div class="panel-title">
     🍳 料理一覧
   </div>
@@ -379,7 +404,7 @@ select{
 
 </div>
 
-<div id="list"></div>
+<div id="list" class="cards"></div>
 
 </div>
 <script>
@@ -946,70 +971,81 @@ function calcHourly(f, star){
 }
 
 // 描画
-// 描画
 function renderList(){
 
-  list.innerHTML="";
+  list.innerHTML += `
 
-  const star =
-    document.getElementById("starSelect").value;
+<div class="card">
 
-  filteredFoods.forEach((f,i)=>{
+  <img
+    class="food-image"
+    src="${f.image}"
+    loading="lazy"
+  >
 
-    const profit = getProfit(f,star);
-    const hourly = calcHourly(f,star);
-
-    list.innerHTML += `
-
-<div
-  class="card"
-  onclick="toggleDetail(${i})"
->
-
-  <img src="${f.image}">
-
-  <div class="food-name">
+  <div class="food-title">
     ${f.name}
   </div>
 
-  <div class="info-row">
-    💰 ${profit}
+  <div class="stat-grid">
+
+    <div class="stat-box profit-box">
+
+      <div class="stat-label">
+        PROFIT
+      </div>
+
+      <div class="stat-value">
+        ${profit}
+      </div>
+
+    </div>
+
+    <div class="stat-box">
+
+      <div class="stat-label">
+        COST
+      </div>
+
+      <div class="stat-value">
+        ${f.cost}
+      </div>
+
+    </div>
+
   </div>
 
-  <div class="info-row">
-    ⏰ ${hourly}
+  <div class="stat-box">
+
+    <div class="stat-label">
+      SELL PRICE
+    </div>
+
+    <div class="stat-value">
+      ${f.prices[star]}
+    </div>
+
   </div>
 
-  <div class="info-row">
-    ⭐ ${star*1+1}
+  <button
+    class="detail-btn"
+    onclick="toggleDetail(${i})"
+  >
+    VIEW DETAILS →
+  </button>
+
+  <div
+    id="detail${i}"
+    class="detail hidden"
+  >
+
+    <b>素材</b>
+
+    <br><br>
+
+    ${f.materials.join("<br>")}
+
   </div>
-
-</div>
-
-<div
-  id="detail${i}"
-  class="detail hidden"
->
-
-  <b>売価</b>
-
-  <br><br>
-
-  ${
-    f.prices
-    .map((p,i)=>
-      `★${i+1}：${p}`
-    )
-    .join("<br>")
-  }
-
-  <br><br>
-
-  <b>素材</b>
-
-  <br><br>
-
-  ${f.materials.join("<br>")}
 
 </div>
 
