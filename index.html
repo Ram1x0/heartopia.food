@@ -470,6 +470,7 @@ const foods = [
   cost:20,
   time:15,
   prices:[90,135,180,360,720],
+  level:1,
   materials:["トマト×2(種@10×2)(他野菜でもok)"]
 },
 {
@@ -1056,7 +1057,7 @@ function renderList(){
 
   <div class="level-badge">
 
-    Lv.${f.level || Math.floor(Math.random()*12)+1}
+    Lv.${f.level}
 
   </div>
 
