@@ -137,8 +137,19 @@ select{
   font-family:"Mochiy Pop One", sans-serif;
   margin-bottom:10px;
 }
+  
+background:
+linear-gradient(180deg,#ffcb05 0,#fff3bf 280px,#f5f5f2 280px);
 
 /* ===== CARD ===== */
+.card{
+  background:white;
+  border-radius:36px;
+  padding:22px;
+  box-shadow:var(--shadow);
+  transition:0.2s;
+}
+  
 .cards{
   display:grid;
   grid-template-columns:
@@ -971,15 +982,26 @@ function calcHourly(f, star){
 }
 
 // 描画
+// 描画
 function renderList(){
 
-  list.innerHTML += `
+  list.innerHTML = "";
+
+  const star =
+    Number(document.getElementById("starSelect").value);
+
+  filteredFoods.forEach((f,i)=>{
+
+    const profit = getProfit(f,star);
+
+    list.innerHTML += `
 
 <div class="card">
 
   <img
     class="food-image"
     src="${f.image}"
+    alt="${f.name}"
     loading="lazy"
   >
 
@@ -1050,6 +1072,7 @@ function renderList(){
 </div>
 
 `;
+
   });
 
 }
