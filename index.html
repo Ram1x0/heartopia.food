@@ -32,10 +32,11 @@ body{
   background:
     linear-gradient(
       180deg,
-      #ffcb05 0px,
-      #ffd84d 280px,
-      #f5f5f2 280px
+      #ffc800 0px,
+      #ffe27a 260px,
+      #f4f4f1 260px
     );
+  color:#2f3440;
 }
 
 /* ===== HEADER ===== */
@@ -64,12 +65,13 @@ body{
   width:100%;
   border:none;
   outline:none;
-  padding:14px 48px 14px 18px;
-  height:64px;
-  border-radius:24px;
+  padding:16px 52px 16px 22px;
+  height:68px;
+  border-radius:28px;
   font-size:16px;
   background:white;
-  box-shadow:var(--shadow);
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.08);
   font-family:"Mochiy Pop One", sans-serif;
 }
 
@@ -101,6 +103,10 @@ body{
   box-shadow:var(--shadow);
   border-radius:40px;
   padding:30px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  align-items:center;
 }
 
 .panel-title{
@@ -131,13 +137,12 @@ button:hover{
 /* ===== SELECT ===== */
 select{
   border:none;
-  border-radius:14px;
-  padding:10px;
-  background:#f2f6ff;
+  border-radius:16px;
+  padding:14px 18px;
+  background:#f3f5fa;
   font-family:"Mochiy Pop One", sans-serif;
-  margin-bottom:10px;
-}
-  
+  font-size:12px;
+}  
 background:
 linear-gradient(180deg,#ffcb05 0,#fff3bf 280px,#f5f5f2 280px);
 
@@ -145,10 +150,13 @@ linear-gradient(180deg,#ffcb05 0,#fff3bf 280px,#f5f5f2 280px);
 .card{
   background:white;
   border-radius:36px;
-  padding:22px;
-  box-shadow:var(--shadow);
-  transition:0.2s;
-}
+  padding:28px;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.08);
+  transition:0.25s;
+  overflow:hidden;
+  position:relative;
+} 
   
 .cards{
   display:grid;
@@ -184,8 +192,9 @@ linear-gradient(180deg,#ffcb05 0,#fff3bf 280px,#f5f5f2 280px);
   width:100%;
   aspect-ratio:1/1;
   object-fit:cover;
-  border-radius:28px;
-  background:#f4f5f8;
+  border-radius:26px;
+  background:#f3f5fa;
+  margin-bottom:20px;
 }
 
 .info-row{
@@ -208,6 +217,19 @@ linear-gradient(180deg,#ffcb05 0,#fff3bf 280px,#f5f5f2 280px);
 
 .rankC{
   color:#999;
+}
+
+.level-badge{
+  position:absolute;
+  right:18px;
+  top:18px;
+  background:white;
+  border:2px solid #edf0f5;
+  border-radius:999px;
+  padding:8px 14px;
+  font-size:12px;
+  color:#697386;
+  box-shadow:0 4px 12px rgba(0,0,0,0.05);
 }
 
 /* ===== DETAIL ===== */
@@ -259,17 +281,14 @@ linear-gradient(180deg,#ffcb05 0,#fff3bf 280px,#f5f5f2 280px);
 
 .stat-box{
   background:#f8f9fc;
-
-  border:2px solid #eef0f6;
-
+  border:2px solid #edf0f5;
   border-radius:22px;
-
-  padding:16px;
+  padding:18px;
 }
 
 .profit-box{
   background:#eaf8f0;
-  border-color:#b7ebcb;
+  border:2px solid #bfe8cc;
 }
 
 .stat-label{
@@ -285,19 +304,14 @@ linear-gradient(180deg,#ffcb05 0,#fff3bf 280px,#f5f5f2 280px);
 
 .detail-btn{
   width:100%;
-
   border:none;
-
   background:#07153b;
   color:white;
-
   border-radius:999px;
-
   padding:18px;
-
   font-size:13px;
-
   margin-top:18px;
+  letter-spacing:1px;
 }
 /* ===== MOBILE ===== */
 @media(max-width:700px){
@@ -1004,6 +1018,10 @@ function renderList(){
     alt="${f.name}"
     loading="lazy"
   >
+
+  <div class="level-badge">
+  Lv.${f.level}
+</div>
 
   <div class="food-title">
     ${f.name}
