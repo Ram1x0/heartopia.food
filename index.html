@@ -220,15 +220,6 @@ linear-gradient(180deg,#ffcb05 0,#fff3bf 280px,#f5f5f2 280px);
   color:#42548d;
 }
 
-.food-image{
-  width:100%;
-  aspect-ratio:1/1;
-  object-fit:cover;
-  border-radius:26px;
-  background:#f3f5fa;
-  margin-bottom:20px;
-}
-
 .info-row{
   font-size:13px;
   margin-bottom:6px;
@@ -255,15 +246,20 @@ linear-gradient(180deg,#ffcb05 0,#fff3bf 280px,#f5f5f2 280px);
   position:absolute;
   right:18px;
   top:18px;
-  background:white;
-  border:2px solid #edf0f5;
+  background:
+    linear-gradient(
+      135deg,
+      #7ec8ff,
+      #9edcff
+    );
+  color:white;
+  border:none;
   border-radius:999px;
-  padding:8px 14px;
+  padding:8px 16px;
   font-size:12px;
-  color:#697386;
-  box-shadow:0 4px 12px rgba(0,0,0,0.05);
+  box-shadow:
+    0 6px 16px rgba(122,168,255,0.3);
 }
-
 /* ===== DETAIL ===== */
 .detail{
   background:white;
