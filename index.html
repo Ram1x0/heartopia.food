@@ -1161,10 +1161,13 @@ function filterFoods(){
 }
 
 function clearSearch(){
-  document.getElementById("search").value="";
-  filteredFoods=[...foods];
-  document.querySelector(".clear-btn").style.display="none";
-  renderList();
+  const search =
+    document.getElementById("search");
+  search.value = "";
+  document.querySelector(".clear-btn")
+    .style.display = "none";
+  filterFoods();
+  search.blur();
 }
 
 // セレクト
