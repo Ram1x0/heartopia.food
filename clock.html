@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ハートピア配信 時計</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold-1:#f4dfa0;
+    --gold-2:#c99a3f;
+    --gold-3:#8a6a2b;
+    --ink:#efe6d8;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    width:100%; height:100%;
+    background:transparent;
+    overflow:hidden;
+    font-family:'Shippori Mincho', serif;
+  }
+
+  #stage{
+    position:relative;
+    width:100vw; height:100vh;
+    background:transparent;
+    opacity:0;
+    animation:fadeIn 1.4s ease forwards;
+  }
+  @keyframes fadeIn{ to{ opacity:1; } }
+
+  .gold-text{
+    background:linear-gradient(180deg, var(--gold-1) 0%, var(--gold-2) 55%, var(--gold-3) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    -webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 0 6px rgba(196,150,70,0.55));
+  }
+  .flicker{ animation:flicker 4.2s ease-in-out infinite; }
+  @keyframes flicker{
+    0%,100%{ filter:drop-shadow(0 0 6px rgba(196,150,70,0.45)) drop-shadow(0 0 14px rgba(124,77,255,0.18)); }
+    45%{ filter:drop-shadow(0 0 10px rgba(230,190,120,0.75)) drop-shadow(0 0 22px rgba(124,77,255,0.30)); }
+    60%{ filter:drop-shadow(0 0 5px rgba(196,150,70,0.4)) drop-shadow(0 0 10px rgba(124,77,255,0.15)); }
+  }
+
+  /* 時計（左上） */
+  #clock{
+    position:absolute;
+    top:6%; left:6%;
+    text-align:left;
+    line-height:1;
+  }
+  #clock .time{
+    font-family:'Cinzel', serif;
+    font-size:clamp(30px, 4.6vw, 56px);
+    font-weight:600;
+    letter-spacing:0.04em;
+    white-space:nowrap;
+  }
+  #clock .colon{
+    color:var(--gold-1);
+    animation:blink 1s steps(1) infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0.15; } }
+  #clock .date{
+    margin-top:8px;
+    font-size:clamp(13px, 1.5vw, 18px);
+    letter-spacing:0.16em;
+    color:var(--ink);
+    opacity:0.8;
+  }
+</style>
+</head>
+<body>
+
+  <div id="stage">
+    <div id="clock">
+      <div class="time gold-text flicker" id="timeText">--:--:--</div>
+      <div class="date" id="dateText"></div>
+    </div>
+  </div>
+
+<script>
+  function tickClock(){
+    const now = new Date();
+    const hh = String(now.getHours()).padStart(2,'0');
+    const mm = String(now.getMinutes()).padStart(2,'0');
+    const ss = String(now.getSeconds()).padStart(2,'0');
+    document.getElementById('timeText').innerHTML =
+      hh + '<span class="colon">:</span>' + mm + '<span class="colon">:</span>' + ss;
+    const w = ['日','月','火','水','木','金','土'][now.getDay()];
+    document.getElementById('dateText').textContent =
+      now.getFullYear() + '.' + String(now.getMonth()+1).padStart(2,'0') + '.' + String(now.getDate()).padStart(2,'0') + ' (' + w + ')';
+  }
+  tickClock();
+  setInterval(tickClock, 1000);
+</script>
+</body>
+</html>
