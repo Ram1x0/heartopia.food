@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ハートピア配信 カウンター</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold-1:#f4dfa0;
+    --gold-2:#c99a3f;
+    --gold-3:#8a6a2b;
+    --ink:#efe6d8;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    width:100%; height:100%;
+    background:transparent;
+    overflow:hidden;
+    font-family:'Shippori Mincho', serif;
+  }
+
+  #stage{
+    position:relative;
+    width:100vw; height:100vh;
+    background:transparent;
+    opacity:0;
+    animation:fadeIn 1.4s ease forwards;
+  }
+  @keyframes fadeIn{ to{ opacity:1; } }
+
+  .gold-text{
+    background:linear-gradient(180deg, var(--gold-1) 0%, var(--gold-2) 55%, var(--gold-3) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    -webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 0 6px rgba(196,150,70,0.55));
+  }
+  .flicker{ animation:flicker 4.2s ease-in-out infinite; }
+  @keyframes flicker{
+    0%,100%{ filter:drop-shadow(0 0 6px rgba(196,150,70,0.45)) drop-shadow(0 0 14px rgba(124,77,255,0.18)); }
+    45%{ filter:drop-shadow(0 0 10px rgba(230,190,120,0.75)) drop-shadow(0 0 22px rgba(124,77,255,0.30)); }
+    60%{ filter:drop-shadow(0 0 5px rgba(196,150,70,0.4)) drop-shadow(0 0 10px rgba(124,77,255,0.15)); }
+  }
+
+  /* カウンター（左上、時計と同じ位置揃え） */
+  #counter{
+    position:absolute;
+    top:6%; left:6%;
+    text-align:left;
+    line-height:1;
+  }
+  #counter .label{
+    font-family:'Shippori Mincho', serif;
+    font-weight:700;
+    font-size:clamp(14px, 1.8vw, 22px);
+    letter-spacing:0.18em;
+    color:var(--ink);
+    opacity:0.85;
+    margin-bottom:10px;
+    white-space:nowrap;
+  }
+  #counter .value{
+    font-family:'Cinzel', serif;
+    font-weight:900;
+    font-size:clamp(72px, 11vw, 160px);
+    letter-spacing:0.03em;
+    -webkit-text-stroke:2px rgba(244,223,160,0.35);
+    white-space:nowrap;
+    transition:transform .18s ease;
+  }
+  #counter .value.bump{ transform:scale(1.08); }
+
+  #status{
+    position:absolute; bottom:4%; left:6%;
+    font-family:sans-serif;
+    font-size:12px;
+    color:#ff8a8a;
+    opacity:0;
+    transition:opacity .3s ease;
+  }
+  #status.show{ opacity:0.85; }
+</style>
+</head>
+<body>
+
+  <div id="stage">
+    <div id="counter">
+      <div class="label gold-text" id="labelText">カウンター</div>
+      <div class="value gold-text flicker" id="valueText">0</div>
+    </div>
+    <div id="status">Firebaseに接続できません（firebase-config.jsの設定を確認）</div>
+  </div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script>
+  const labelEl = document.getElementById('labelText');
+  const valueEl = document.getElementById('valueText');
+  const statusEl = document.getElementById('status');
+  let lastValue = null;
+
+  function render(state){
+    if (typeof state.label === 'string' && state.label !== labelEl.textContent) {
+      labelEl.textContent = state.label;
+    }
+    if (typeof state.value === 'number' && state.value !== lastValue) {
+      lastValue = state.value;
+      valueEl.textContent = state.value.toLocaleString('ja-JP');
+      valueEl.classList.remove('bump');
+      void valueEl.offsetWidth;
+      valueEl.classList.add('bump');
+    }
+  }
+  function showStatus(show){ statusEl.classList.toggle('show', !!show); }
+
+  try {
+    firebase.initializeApp(firebaseConfig);
+    const ref = firebase.database().ref('counters/' + COUNTER_ID);
+    ref.on('value', (snap) => {
+      const state = snap.val() || { value: 0, label: 'カウンター' };
+      showStatus(false);
+      render(state);
+    }, () => showStatus(true));
+  } catch (e) {
+    showStatus(true);
+  }
+</script>
+</body>
+</html>
